@@ -39,7 +39,6 @@ class GBBlogParse:
         posts = wrapper.find_all('div', attrs={'class': 'post-item'})
         links = {f'{self.domain}{itm.find("a").get("href")}' for itm in posts}
         self.post_links.update(links)
-        # return links
 
     def post_page_parse(self):
         for url in self.post_links:
@@ -49,8 +48,6 @@ class GBBlogParse:
             response = requests.get(url)
             self.visited_urls.add(url)
             soap = BeautifulSoup(response.text, 'lxml')
-            if len(self.posts_data) > 5:
-                break
             self.posts_data.append(self.get_post_data(soap))
 
     def get_post_data(self, soap: BeautifulSoup) -> Dict[str, str]:
